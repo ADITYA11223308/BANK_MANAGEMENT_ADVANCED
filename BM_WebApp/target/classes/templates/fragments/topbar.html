@@ -1,0 +1,8 @@
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="topbar(user)" class="topbar">
+    <div class="topbar-welcome">
+        Welcome back, <strong th:text="${user != null ? user.name : ''}">User</strong>
+    </div>
+    <div class="topbar-user">
+        <span class="avatar" th:text="${user != null and user.name != null and #strings.length(user.name) > 0} ? ${#strings.substring(user.name,0,1)} : '?'">U</span>
+    </div>
+</div>

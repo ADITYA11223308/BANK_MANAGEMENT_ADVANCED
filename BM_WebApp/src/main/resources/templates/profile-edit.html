@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile &mdash; BM Bank</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="app-shell">
+    <div th:replace="~{fragments/sidebar :: sidebar(active='profile')}"></div>
+
+    <div class="main-content">
+        <div th:replace="~{fragments/topbar :: topbar(user=${user})}"></div>
+
+        <div class="page-body" style="max-width:560px;">
+            <div class="page-header">
+                <h2>Edit Profile</h2>
+                <p>Email cannot be changed here. Confirm your password to save changes.</p>
+            </div>
+
+            <div class="panel">
+                <div class="alert alert-error" th:if="${error}"><span th:text="${error}"></span></div>
+
+                <form th:action="@{/profile/edit}" method="post">
+                    <div class="form-group">
+                        <label for="name">Full name</label>
+                        <input type="text" id="name" name="name" th:value="${user.name}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email address</label>
+                        <input type="email" th:value="${user.email}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumber">Phone number</label>
+                        <input type="tel" id="phoneNumber" name="phoneNumber" th:value="${user.phoneNumber}"
+                               pattern="[6-9][0-9]{9}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Current password</label>
+                        <input type="password" id="password" name="password" required>
+                        <div class="field-hint">Required to confirm this change.</div>
+                    </div>
+                    <div style="display:flex; gap:12px;">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <a href="/profile" class="btn btn-outline">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

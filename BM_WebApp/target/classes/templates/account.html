@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account &mdash; BM Bank</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="app-shell">
+    <div th:replace="~{fragments/sidebar :: sidebar(active='account')}"></div>
+
+    <div class="main-content">
+        <div th:replace="~{fragments/topbar :: topbar(user=${user})}"></div>
+
+        <div class="page-body">
+            <div class="page-header">
+                <h2>My Account</h2>
+                <p>Full details of your bank account.</p>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>Account Information</h3>
+                    <span class="badge"
+                          th:classappend="${account.status.name() == 'ACTIVE'} ? 'status-active' : (${account.status.name() == 'SUSPENDED'} ? 'status-suspended' : 'status-closed')"
+                          th:text="${account.status}">ACTIVE</span>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="label">Account Number</div>
+                        <div class="value" th:text="${account.accountNumber}">00000000</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="label">Account Holder</div>
+                        <div class="value" th:text="${account.accountHolderName}">Name</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="label">User ID</div>
+                        <div class="value" th:text="${account.userId}">0</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="label">Account Type</div>
+                        <div class="value" th:text="${account.accountType}">SAVINGS</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="label">Balance</div>
+                        <div class="value" th:text="'&#8377;' + ${#numbers.formatDecimal(account.balance, 0, 'COMMA', 2, 'POINT')}">&#8377;0.00</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:flex; gap:12px;">
+                <a href="/deposit" class="btn btn-primary">Deposit</a>
+                <a href="/withdraw" class="btn btn-outline">Withdraw</a>
+                <a href="/transactions" class="btn btn-outline">View Transactions</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

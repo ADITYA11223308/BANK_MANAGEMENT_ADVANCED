@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BM Bank &mdash; Banking Made Simple. Secure. Reliable.</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<section class="hero">
+    <div class="hero-inner">
+        <div>
+            <div class="hero-eyebrow">Trusted Digital Banking</div>
+            <h1>Banking Made Simple.<br>Secure. Reliable.</h1>
+            <p>Manage your account, move money, and track every transaction from one clean,
+               dependable dashboard &mdash; built for people who want banking without the noise.</p>
+            <div class="hero-actions">
+                <a href="/login" class="btn btn-gold">Login</a>
+                <a href="/register" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,0.5);">Open Account</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="hero-card">
+                <div class="label">Available Balance</div>
+                <div class="amount">&#8377;1,07,100.00</div>
+                <div class="hero-card-row"><span>Account Number</span><span>63163697</span></div>
+                <div class="hero-card-row"><span>Account Type</span><span>SAVINGS</span></div>
+                <div class="hero-card-row"><span>Status</span><span>ACTIVE</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="services">
+    <div class="section-header">
+        <h2>Everything your account needs</h2>
+        <p>A focused set of tools for managing your money with confidence.</p>
+    </div>
+    <div class="grid-3">
+        <div class="service-card">
+            <div class="icon">&#128179;</div>
+            <h3>Account Management</h3>
+            <p>View your balance, account number, and status in one clear summary.</p>
+        </div>
+        <div class="service-card">
+            <div class="icon">&#8646;</div>
+            <h3>Secure Transactions</h3>
+            <p>Deposit, withdraw, and transfer funds with backend-validated safety checks.</p>
+        </div>
+        <div class="service-card">
+            <div class="icon">&#128203;</div>
+            <h3>Transaction History</h3>
+            <p>Every deposit, withdrawal, and transfer recorded and easy to review.</p>
+        </div>
+        <div class="service-card">
+            <div class="icon">&#128064;</div>
+            <h3>Account Monitoring</h3>
+            <p>Keep an eye on your account status &mdash; active, suspended, or closed.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section section-alt" id="about">
+    <div class="section-header">
+        <h2>Built on real security foundations</h2>
+        <p>Every action is authenticated and authorized before it reaches your account.</p>
+    </div>
+    <div class="security-grid">
+        <div class="security-item">
+            <div class="icon">&#128274;</div>
+            <div>
+                <h4>Secure Authentication</h4>
+                <p>Token-based login keeps your session verified on every request.</p>
+            </div>
+        </div>
+        <div class="security-item">
+            <div class="icon">&#9989;</div>
+            <div>
+                <h4>Protected Transactions</h4>
+                <p>Deposits, withdrawals, and transfers are validated server-side.</p>
+            </div>
+        </div>
+        <div class="security-item">
+            <div class="icon">&#127959;</div>
+            <div>
+                <h4>Reliable Infrastructure</h4>
+                <p>Your data stays scoped to your account &mdash; never accessible to others.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-inner">
+        <div>
+            <div class="brand"><span class="brand-mark">BM</span><span>BM Bank</span></div>
+            <p>A modern digital banking experience built for clarity, trust, and control.</p>
+        </div>
+        <ul class="footer-links">
+            <li><a href="/login">Login</a></li>
+            <li><a href="/register">Open Account</a></li>
+            <li><a href="/#services">Services</a></li>
+        </ul>
+    </div>
+    <div class="footer-bottom">&copy; 2026 BM Bank. All rights reserved.</div>
+</footer>
+
+</body>
+</html>

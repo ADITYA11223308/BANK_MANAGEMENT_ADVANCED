@@ -1,0 +1,7 @@
+
+CREATE DATABASE IF NOT EXISTS bank_account_db;
+CREATE DATABASE IF NOT EXISTS bank_auth_db;
+CREATE DATABASE IF NOT EXISTS bank_user_db;
+CREATE DATABASE IF NOT EXISTS bank_transaction_db;
+CREATE DATABASE IF NOT EXISTS bank_notification_db;
+CREATE DATABASE IF NOT EXISTS bank_eurekaServer_db;

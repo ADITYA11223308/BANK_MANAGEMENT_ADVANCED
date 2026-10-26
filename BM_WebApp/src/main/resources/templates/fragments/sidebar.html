@@ -1,0 +1,29 @@
+<aside xmlns:th="http://www.thymeleaf.org" th:fragment="sidebar(active)" class="sidebar">
+    <div class="sidebar-brand">
+        <a href="/dashboard" class="brand">
+            <span class="brand-mark">BM</span>
+            <span>BM Bank</span>
+        </a>
+    </div>
+
+    <ul class="sidebar-nav">
+        <li><a href="/dashboard" th:classappend="${active == 'dashboard'} ? 'active'">
+            <span class="icon">&#8962;</span> Dashboard</a></li>
+        <li><a href="/account" th:classappend="${active == 'account'} ? 'active'">
+            <span class="icon">&#128179;</span> My Account</a></li>
+        <li><a href="/deposit" th:classappend="${active == 'deposit'} ? 'active'">
+            <span class="icon">&#8595;</span> Deposit</a></li>
+        <li><a href="/withdraw" th:classappend="${active == 'withdraw'} ? 'active'">
+            <span class="icon">&#8593;</span> Withdraw</a></li>
+        <li><a href="/transfer" th:classappend="${active == 'transfer'} ? 'active'">
+            <span class="icon">&#8644;</span> Transfer</a></li>
+        <li><a href="/transactions" th:classappend="${active == 'transactions'} ? 'active'">
+            <span class="icon">&#128203;</span> Transactions</a></li>
+        <li><a href="/profile" th:classappend="${active == 'profile'} ? 'active'">
+            <span class="icon">&#128100;</span> Profile</a></li>
+    </ul>
+
+    <div class="sidebar-footer">
+        <a href="/logout">&#10132; Logout</a>
+    </div>
+</aside>

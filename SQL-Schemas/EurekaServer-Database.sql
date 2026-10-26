@@ -1,0 +1,2 @@
+create database bank_eurekaServer_db;
+use bank_eurekaServer_db;

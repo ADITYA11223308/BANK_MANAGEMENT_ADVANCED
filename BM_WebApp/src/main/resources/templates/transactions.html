@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions &mdash; BM Bank</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="app-shell">
+    <div th:replace="~{fragments/sidebar :: sidebar(active='transactions')}"></div>
+
+    <div class="main-content">
+        <div th:replace="~{fragments/topbar :: topbar(user=${user})}"></div>
+
+        <div class="page-body">
+            <div class="page-header">
+                <h2>Transaction History</h2>
+                <p>Every deposit, withdrawal, and transfer on your account.</p>
+            </div>
+
+            <div th:if="${account == null}" class="panel empty-state">
+                <div class="icon">&#128203;</div>
+                <h4>No account yet</h4>
+                <p>Open an account to start building transaction history.</p>
+                <a href="/account/create" class="btn btn-primary">Create Account</a>
+            </div>
+
+            <div th:if="${account != null}" class="panel">
+                <div th:if="${#lists.isEmpty(transactions)}" class="empty-state">
+                    <div class="icon">&#128203;</div>
+                    <h4>No recent transactions</h4>
+                    <p>Your transaction history will appear here once you deposit, withdraw, or transfer.</p>
+                </div>
+
+                <div class="table-wrap" th:if="${!#lists.isEmpty(transactions)}">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Balance After</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="tx : ${transactions}">
+                            <td th:text="${tx.transactionId}">1</td>
+                            <td>
+                                <span class="type-badge"
+                                      th:classappend="${tx.transactionType.name() == 'DEPOSIT'} ? 'type-deposit' : (${tx.transactionType.name() == 'WITHDRAW'} ? 'type-withdraw' : 'type-transfer')"
+                                      th:text="${tx.transactionType}">DEPOSIT</span>
+                            </td>
+                            <td>
+                                <span th:if="${tx.transactionType.name() == 'DEPOSIT'}" class="amount-positive"
+                                      th:text="'+ &#8377;' + ${tx.amount}">+ &#8377;0</span>
+                                <span th:unless="${tx.transactionType.name() == 'DEPOSIT'}" class="amount-negative"
+                                      th:text="'- &#8377;' + ${tx.amount}">- &#8377;0</span>
+                            </td>
+                            <td th:text="'&#8377;' + ${tx.balanceAfterTransaction}">&#8377;0</td>
+                            <td th:text="${#temporals.format(tx.transactionTime, 'dd MMM yyyy, HH:mm')}">Date</td>
+                            <td th:text="${tx.status}">SUCCESS</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

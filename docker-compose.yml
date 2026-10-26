@@ -1,0 +1,177 @@
+
+services:
+  redis:
+    image: redis:7
+    container_name: bank_redis
+    ports:
+      - "6380:6379"
+
+  kafka:
+    image: apache/kafka:3.9.1
+    container_name: bank_kafka
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: CONTROLLER://:9093,INTERNAL://:9092,EXTERNAL://:19092
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://localhost:19092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+    ports:
+      - "19093:19092"
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+
+  eureka-server:
+    image: aditya2453/bank-eureka-server:latest
+    build: ./BM_eureka-server
+    container_name: bank_eureka_server
+    environment:
+      SERVER_PORT: 8761
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/bank_eurekaServer_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Aditya@123
+      EUREKA_CLIENT_REGISTER_WITH_EUREKA: "false"
+      EUREKA_CLIENT_FETCH_REGISTRY: "false"
+    ports:
+      - "8761:8761"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  user-service:
+    image: aditya2453/bank-user-service:latest
+    build: ./BM_UserService
+    container_name: bank_user_service
+    environment:
+      SERVER_PORT: 8080
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/bank_user_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Aditya@123
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      NGINX_URL: http://host.docker.internal:8090
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+    ports:
+      - "8080:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      kafka:
+        condition: service_started
+      eureka-server:
+        condition: service_started
+
+  auth-service:
+    image: aditya2453/bank-auth-service:latest
+    build: ./BM_AuthService
+    container_name: bank_auth_service
+    environment:
+      SERVER_PORT: 8084
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/bank_auth_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Aditya@123
+      USER_SERVICE_URL: http://user-service:8080
+      NGINX_URL: http://host.docker.internal:8090
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+    ports:
+      - "8084:8084"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      eureka-server:
+        condition: service_started
+      user-service:
+        condition: service_started
+
+  account-service:
+    image: aditya2453/bank-account-service:latest
+    build: ./BM_AccountService
+    container_name: bank_account_service
+    environment:
+      SERVER_PORT: 8081
+      AUTH_SERVIVE_URL: http://auth-service:8084
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/bank_account_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Aditya@123
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      NGINX_URL: http://host.docker.internal:8090
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+    ports:
+      - "8081:8081"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      redis:
+        condition: service_started
+      eureka-server:
+        condition: service_started
+      auth-service:
+        condition: service_started
+
+  transaction-service:
+    image: aditya2453/bank-transaction-service:latest
+    build: ./BM_TransactionService
+    container_name: bank_transaction_service
+    environment:
+      SERVER_PORT: 8082
+      ACCOUNT_SERVICE_URL: http://account-service:8081
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/bank_transaction_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Aditya@123
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      NGINX_URL: http://host.docker.internal:8090
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+    ports:
+      - "8082:8082"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      kafka:
+        condition: service_started
+      eureka-server:
+        condition: service_started
+      account-service:
+        condition: service_started
+
+  notification-service:
+    image: aditya2453/bank-notification-service:latest
+    build: ./BM_NotificationService
+    container_name: bank_notification_service
+    environment:
+      SERVER_PORT: 8083
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/bank_notification_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Aditya@123
+      NGINX_URL: http://host.docker.internal:8090
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+    ports:
+      - "8083:8083"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      kafka:
+        condition: service_started
+      eureka-server:
+        condition: service_started
+
+  web-app:
+    image: aditya2453/bank-web-app:latest
+    build: ./BM_WebApp
+    container_name: bank_web_app
+    environment:
+      SERVER_PORT: 8086
+      GATEWAY_URL: http://host.docker.internal:8090
+      SPRING_THYMELEAF_CACHE: "false"
+    ports:
+      - "8086:8086"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  kafka_data:

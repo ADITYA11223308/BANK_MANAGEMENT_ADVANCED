@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard &mdash; BM Bank</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="app-shell">
+    <div th:replace="~{fragments/sidebar :: sidebar(active='dashboard')}"></div>
+
+    <div class="main-content">
+        <div th:replace="~{fragments/topbar :: topbar(user=${user})}"></div>
+
+        <div class="page-body">
+            <div class="page-header">
+                <h2>Dashboard</h2>
+                <p>Here's a quick look at your account.</p>
+            </div>
+
+            <!-- NO ACCOUNT YET -->
+            <div class="panel empty-state" th:if="${account == null}">
+                <div class="icon">&#128179;</div>
+                <h4>No account yet</h4>
+                <p>Open a bank account to start depositing, withdrawing, and tracking transactions.</p>
+                <a href="/account/create" class="btn btn-primary">Create Account</a>
+            </div>
+
+            <!-- HAS ACCOUNT -->
+            <div th:if="${account != null}">
+                <div class="summary-grid">
+                    <div class="summary-card balance-card">
+                        <div class="label">Current Balance</div>
+                        <div class="value" th:text="'&#8377;' + ${#numbers.formatDecimal(account.balance, 0, 'COMMA', 2, 'POINT')}">&#8377;0.00</div>
+                        <div class="sub" th:text="'Account No. ' + ${account.accountNumber}">Account No.</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="label">Account Type</div>
+                        <div class="value" style="font-size:1.1rem;" th:text="${account.accountType}">SAVINGS</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="label">Status</div>
+                        <span class="badge"
+                              th:classappend="${account.status.name() == 'ACTIVE'} ? 'status-active' : (${account.status.name() == 'SUSPENDED'} ? 'status-suspended' : 'status-closed')"
+                              th:text="${account.status}">ACTIVE</span>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Recent Transactions</h3>
+                        <a href="/transactions" class="btn btn-outline btn-sm">View All</a>
+                    </div>
+
+                    <div th:if="${recentTransactions == null or #lists.isEmpty(recentTransactions)}" class="empty-state" style="padding:24px;">
+                        <p style="margin:0;">No recent transactions</p>
+                    </div>
+
+                    <div class="table-wrap" th:if="${recentTransactions != null and !#lists.isEmpty(recentTransactions)}">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="tx : ${recentTransactions}">
+                                <td>
+                                    <span class="type-badge"
+                                          th:classappend="${tx.transactionType.name() == 'DEPOSIT'} ? 'type-deposit' : (${tx.transactionType.name() == 'WITHDRAW'} ? 'type-withdraw' : 'type-transfer')"
+                                          th:text="${tx.transactionType}">DEPOSIT</span>
+                                </td>
+                                <td>
+                                    <span th:if="${tx.transactionType.name() == 'DEPOSIT'}" class="amount-positive"
+                                          th:text="'+ &#8377;' + ${tx.amount}">+ &#8377;0</span>
+                                    <span th:unless="${tx.transactionType.name() == 'DEPOSIT'}" class="amount-negative"
+                                          th:text="'- &#8377;' + ${tx.amount}">- &#8377;0</span>
+                                </td>
+                                <td th:text="${#temporals.format(tx.transactionTime, 'dd MMM yyyy, HH:mm')}">Date</td>
+                                <td th:text="${tx.status}">SUCCESS</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

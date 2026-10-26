@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile &mdash; BM Bank</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="app-shell">
+    <div th:replace="~{fragments/sidebar :: sidebar(active='profile')}"></div>
+
+    <div class="main-content">
+        <div th:replace="~{fragments/topbar :: topbar(user=${user})}"></div>
+
+        <div class="page-body" style="max-width:640px;">
+            <div class="page-header">
+                <h2>Profile</h2>
+                <p>Your personal information on file.</p>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>Personal Details</h3>
+                    <a href="/profile/edit" class="btn btn-outline btn-sm">Edit Profile</a>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="label">Name</div>
+                        <div class="value" th:text="${user.name}">Name</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="label">Email</div>
+                        <div class="value" th:text="${user.email}">email@example.com</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="label">Phone</div>
+                        <div class="value" th:text="${user.phoneNumber}">0000000000</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="label">User ID</div>
+                        <div class="value" th:text="${user.userId}">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

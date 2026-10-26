@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open an Account &mdash; BM Bank</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="auth-page">
+    <div class="auth-card" style="max-width:460px;">
+        <div class="brand"><span class="brand-mark">BM</span><span>BM Bank</span></div>
+        <p class="auth-subtitle">Create your account in a minute</p>
+
+        <div class="alert alert-error" th:if="${error}">
+            <span th:text="${error}"></span>
+        </div>
+
+        <form th:action="@{/register}" method="post">
+            <div class="form-group">
+                <label for="name">Full name</label>
+                <input type="text" id="name" name="name" th:value="${name}" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" id="email" name="email" th:value="${email}" required>
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber">Phone number</label>
+                <input type="tel" id="phoneNumber" name="phoneNumber" th:value="${phoneNumber}"
+                       pattern="[6-9][0-9]{9}" placeholder="10-digit mobile number" required>
+                <div class="field-hint">Indian mobile number, starting with 6&ndash;9.</div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+        </form>
+
+        <div class="auth-footer">
+            Already have an account? <a href="/login">Log in</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
