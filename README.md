@@ -1,5 +1,4 @@
-# BANK_MANAGEMENT_ADVANCED
-
+# BANK_MANAGEMENT_PROJECT_ADVANCE
 
 ### A Microservices-Based Bank Management System
 
@@ -94,65 +93,33 @@ The project combines banking functionality with authentication, service discover
 
 The following diagram illustrates the high-level architecture and intended communication paths. The exact routing and service connections should be verified against the project configuration.
 
+```mermaid
+flowchart TD
+    U[User / Web Application]
+    N[NGINX]
+    G[Apache APISIX]
 
-flowchart TB
-    U["User / Web Application"]
+    U --> N
+    N --> G
 
-    subgraph EDGE["API Entry Layer"]
-        N["NGINX<br/>Load Balancing"]
-        G["Apache APISIX<br/>API Gateway & Routing"]
-    end
+    G --> US[User Service]
+    G --> AS[Account Service]
+    G --> TS[Transaction Service]
 
-    subgraph SERVICES["Banking Microservices"]
-        US["User Service"]
-        AS["Account Service"]
-        TS["Transaction Service"]
-        NS["Notification Service"]
-    end
+    US --> DB1[(MySQL)]
+    AS --> DB2[(MySQL)]
+    TS --> DB3[(MySQL)]
 
-    subgraph INFRA["Infrastructure & Messaging"]
-        E["Netflix Eureka<br/>Service Discovery"]
-        K[("Apache Kafka")]
-    end
+    US -. Service Discovery .-> E[Eureka Server]
+    AS -. Service Discovery .-> E
+    TS -. Service Discovery .-> E
 
-    subgraph DATA["Data Persistence"]
-        DB1[("MySQL<br/>User Data")]
-        DB2[("MySQL<br/>Account Data")]
-        DB3[("MySQL<br/>Transaction Data")]
-        DB4[("MySQL<br/>Notification Data")]
-    end
+    TS -. HTTP Requests .-> AS
+    TS -. Publish Messages .-> K[Apache Kafka]
+    K -. Consume Messages .-> NS[Notification Service]
 
-    U -->|HTTP Requests| N
-    N -->|Forward Requests| G
-
-    G --> US
-    G --> AS
-    G --> TS
-
-    US --> DB1
-    AS --> DB2
-    TS --> DB3
-    NS --> DB4
-
-    US -. Registration / Discovery .-> E
-    AS -. Registration / Discovery .-> E
-    TS -. Registration / Discovery .-> E
-    NS -. Registration / Discovery .-> E
-
-    TS -->|REST API via RestClient| AS
-    TS -->|Publish Events| K
-    K -->|Consume Events| NS
-
-    classDef entry fill:#DCEBFA,stroke:#3973AC,color:#17365D,stroke-width:1.5px
-    classDef service fill:#DDF3E4,stroke:#398354,color:#174D2B,stroke-width:1.5px
-    classDef infra fill:#FBE8D5,stroke:#C47A30,color:#713F12,stroke-width:1.5px
-    classDef data fill:#EAE1F7,stroke:#8262AD,color:#3F2865,stroke-width:1.5px
-
-    class N,G entry
-    class US,AS,TS,NS service
-    class E,K infra
-    class DB1,DB2,DB3,DB4 data
-
+    NS --> DB4[(MySQL)]
+```
 
 ### 🔄 How the Components Work Together
 
