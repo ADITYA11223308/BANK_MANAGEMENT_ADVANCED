@@ -175,34 +175,15 @@ flowchart TB
 ##  System Design Concepts
 
 ### 1. Microservices Architecture
-The application is divided into smaller services with separate responsibilities, making the codebase easier to organize and maintain.
-
 ### 2. Separation of Responsibilities
-User management, account management, transaction processing, and notifications are handled by their respective services.
-
 ### 3. REST-Based Communication
-Services can exchange information through HTTP APIs. RestClient is used for service-to-service HTTP requests where implemented.
-
 ### 4. Event-Driven Architecture
-Apache Kafka enables services to exchange messages asynchronously, reducing the need for every operation to depend on an immediate response from another service.
-
 ### 5. Service Discovery
-Netflix Eureka provides a registry where configured services can register and discover other services.
-
 ### 6. API Gateway
-Apache APISIX provides a central entry point for API routing and related gateway capabilities.
-
 ### 7. Load Balancing
-NGINX can distribute incoming requests across configured backend instances.
-
 ### 8. Authentication and Authorization
-JWT and Spring Security are used to authenticate users and protect authorized operations.
-
 ### 9. Transaction Failure Handling
-Money transfers may involve multiple service operations. Compensation logic can be used to reverse an earlier operation if a later step fails, where that logic is implemented.
-
 ### 10. Containerization
-Docker packages application services and their runtime dependencies. Docker Compose helps define and run the configured application environment.
 
 ---
 
