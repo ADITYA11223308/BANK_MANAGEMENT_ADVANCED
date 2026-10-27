@@ -191,12 +191,12 @@ flowchart TB
 
 The application focuses on common banking operations:
 
-- **Registration and Login:** Users access the application through the configured authentication flow.
-- **Account Creation:** Users can create and manage bank accounts through supported APIs.
-- **Deposit:** Add money to an account.
-- **Withdrawal:** Deduct money from an account, subject to business rules.
-- **Money Transfer:** Transfer money between accounts through the transaction workflow.
-- **Notifications:** Process configured messages related to application or banking events.
+* **Registration and Login** 
+* **Account Creation** 
+* **Deposit**
+* **Withdrawal**
+* **Money Transfer**
+* **Notifications**
 
 Banking operations must enforce appropriate validation, authorization, and balance checks. Successful behavior should be verified through the application's tests.
 
