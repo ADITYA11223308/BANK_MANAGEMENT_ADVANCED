@@ -8,7 +8,7 @@ The project demonstrates how multiple independent services work together to buil
 
 ---
 
-## 📌 Table of Contents
+##  Table of Contents
 
 - [Overview](#-overview)
 - [Key Features](#-key-features)
@@ -23,7 +23,7 @@ The project demonstrates how multiple independent services work together to buil
 
 ---
 
-## 📖 Overview
+##  Overview
 
 **BANK_MANAGEMENT_PROJECT_ADVANCE** is designed to manage banking operations through separate microservices, with each service responsible for a specific area of the application.
 
@@ -31,35 +31,35 @@ Instead of putting all business logic into one large application, the microservi
 
 The project combines banking functionality with authentication, service discovery, API routing, load balancing, and containerization.
 
-## ✨ Key Features
+##  Key Features
 
-### 👤 User Management
+###  User Management
 - User registration and login.
 - User profile management.
 - Authentication for protected resources.
 
-### 🏦 Account Management
+###  Account Management
 - Bank account creation and management.
 - Account balance management.
 - Banking operations supported through service APIs.
 
-### 💸 Transaction Management
+###  Transaction Management
 - Deposit and withdrawal operations.
 - Money transfers between accounts.
 - Communication with other services to perform banking operations.
 - Transaction failure handling and compensation where implemented.
 
-### 🔐 Authentication and Security
+###  Authentication and Security
 - JWT-based authentication.
 - Spring Security for access control.
 - Protection of secured API endpoints.
 
-### 📨 Notifications and Messaging
+###  Notifications and Messaging
 - Apache Kafka for message-based communication.
 - Notification processing through the notification service.
 - Event-driven communication where configured.
 
-### 🌐 Infrastructure and Deployment
+###  Infrastructure and Deployment
 - Netflix Eureka for service discovery.
 - Apache APISIX for API routing and gateway functionality.
 - NGINX for load balancing.
@@ -67,7 +67,7 @@ The project combines banking functionality with authentication, service discover
 
 ---
 
-## 🛠️ Technology Stack
+##  Technology Stack
 
 | Technology | Purpose |
 |---|---|
@@ -89,7 +89,7 @@ The project combines banking functionality with authentication, service discover
 
 ---
 
-## 🏗️ System Architecture
+##  System Architecture
 
 The following diagram illustrates the high-level architecture and intended communication paths. The exact routing and service connections should be verified against the project configuration.
 
@@ -155,7 +155,7 @@ flowchart TB
 ```
 
 
-### 🔄 How the Components Work Together
+###  How the Components Work Together
 
 - **Web Application:** Provides the user-facing interface for banking operations.
 - **NGINX:** Handles configured request distribution and load balancing.
@@ -172,7 +172,7 @@ flowchart TB
 
 ---
 
-## 🧠 System Design Concepts
+##  System Design Concepts
 
 ### 1. Microservices Architecture
 The application is divided into smaller services with separate responsibilities, making the codebase easier to organize and maintain.
@@ -206,7 +206,7 @@ Docker packages application services and their runtime dependencies. Docker Comp
 
 ---
 
-## 💳 Banking Operations
+##  Banking Operations
 
 The application focuses on common banking operations:
 
@@ -221,7 +221,7 @@ Banking operations must enforce appropriate validation, authorization, and balan
 
 ---
 
-## 🔐 Security
+##  Security
 
 Security-related technologies used in the project include:
 
@@ -233,7 +233,7 @@ Security-related technologies used in the project include:
 
 ---
 
-## 🐳 Deployment
+##  Deployment
 
 Docker and Docker Compose are part of the project's deployment stack.
 
@@ -243,7 +243,7 @@ For the exact startup procedure, refer to the project's Docker Compose file, Doc
 
 ---
 
-## 🧪 Testing
+##  Testing
 
 Postman can be used to test the application's REST APIs, including:
 
@@ -258,7 +258,7 @@ Testing should also cover failure scenarios, especially money-transfer compensat
 
 ---
 
-## 🎯 Project Goals
+##  Project Goals
 
 This project aims to:
 
@@ -272,7 +272,7 @@ This project aims to:
 
 ---
 
-## 👨‍💻 About the Project
+##  About the Project
 
 **Project Name:** BANK_MANAGEMENT_PROJECT_ADVANCE
 
