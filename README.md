@@ -80,6 +80,7 @@ The project combines banking functionality with authentication, service discover
 | REST APIs | Communication between services |
 | RestClient | Making HTTP requests to other services |
 | Apache Kafka | Message-based communication and events |
+| Redis | Fast in-memory caching to reduce database queries. |
 | Netflix Eureka | Service registration and discovery |
 | NGINX | Load balancing and request distribution |
 | Apache APISIX | API gateway and request routing |
